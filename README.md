@@ -159,7 +159,7 @@ Each row represents a customer, each column contains a customer attribute. The d
 	- Train data 
     - target: Sale Price; 
     - features dropped: 'EnclosedPorch', 'WoodDeckSF', 'LotFrontage', 'GarageFinish', 'BsmtFinType1', 'BedroomAbvGr', 'GarageYrBlt', 'MasVnrArea', 'BsmtExposure', 'YearRemodAdd', 'OpenPorchSF', 'BsmtUnfSF', 'KitchenQual'
-    - features kept: 1stFlrSF	2ndFlrSF	BsmtFinSF1	GarageArea	GrLivArea	LotArea	OverallCond	OverallQual	TotalBsmtSF	YearBuilt
+    - features kept: '1stFlrSF'	'2ndFlrSF'	'BsmtFinSF1'	'GarageArea'	'GrLivArea'	'LotArea'	'OverallCond'	'OverallQual'	'TotalBsmtSF'	'YearBuilt'
 
    
 
