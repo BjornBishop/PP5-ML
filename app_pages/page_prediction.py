@@ -83,17 +83,29 @@ def page_sale_price_prediction():
 
     st.write("---")
     st.write("#### This is a lama. Oh, I mean a lamna.")
-    st.write("* The second is for feature scaling and modelling.")
+    st.write("* This is the model that predicted most accurately.")
     st.write(v3_pipeline)
 
     st.write("---")
     st.write("* The features the model was trained and their importance.")
     st.write(X_train.columns.to_list())
     st.image(v3_feat_importance)
+    st.info(
+        f"* We can note here than from the original 25 features"
+        f" The model that predicted the most accurately was only"
+        f" utilising 3 features: Above Ground Living Area, Total Basement size"
+        f" and the year the building was built."
+    )
 
     st.write("---")
     st.write("### Pipeline Performance")
     regression_performance(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, pipeline=v3_pipeline)
+    st.info(
+        f"* As we can see here, the model performed quite well."
+        f"* Train Set R2 Score: 0.861"
+        f"* Test set R2 Score: 0.79"
+        f"* This surpassed the required prediction score requested by the client"
+    )
 
     st.write("---")
     if st.checkbox("Show Regression Evaluation Plots"):
