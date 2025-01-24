@@ -98,4 +98,12 @@ def page_sale_price_prediction():
     st.write("---")
     if st.checkbox("Show Regression Evaluation Plots"):
         regression_evaluation_plots(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, pipeline=v3_pipeline)
+        st.info(
+            f"* The blue dots represent the actual and predicted value provided by the ML.  "
+            f" The red line indicated where the predicted value is. \n"
+            f"* As it should, the blue dots follow the red line to a pretty accurate degree."
+            f"This occured both for test and training sets of data."
+            f"*  We note that there are few datapoints above 400,000+ so these values are often "
+            f" harder to predict than the others. "
+    )
 
