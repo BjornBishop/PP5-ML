@@ -14,8 +14,12 @@ def load_pkl_file(file_path):
 
 def load_housing_data_transformed():
     df_trans = pd.read_csv("/workspace/PP5-ML/outputs/datasets/collection/Housing_prices_transformed.csv")
-    return df
+    return df_trans
 
 def final_pipeline():
-    df = joblib.load("/workspace/PP5-ML/outputs/ml_pipeline/predict_SalePrice/v1.1/final_pipeline.pkl")
-    return df
+    ppl_final = joblib.load("/workspace/PP5-ML/outputs/ml_pipeline/predict_SalePrice/v1.1/final_pipeline.pkl")
+    return ppl_final
+
+def CleanedDataset():
+    ppl_cleaned = joblib.load("/workspace/PP5-ML/outputs/datasets/cleaned/CleanedDataset.csv.pkl")
+    return ppl_cleaned

@@ -8,62 +8,92 @@ from sklearn.pipeline import Pipeline
 from sklearn.linear_model import Lasso
 from sklearn.feature_selection import SelectFromModel
 from sklearn.preprocessing import StandardScaler
-from sklearn.compose import ColumnTransformer  
+from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
-from app_pages.pipeline_definitions import final_pipeline 
+from app_pages.pipeline_definitions import final_pipeline
 
-
-def page_predict_price_body():
+def page_predict_sale_price():
     # Load the pipeline
     pipeline = joblib.load('/workspace/PP5-ML/outputs/ml_pipeline/predict_SalePrice/v3/best_regressor_pipeline.pkl')
 
-    # Define numerical features
-    num_features = ['OverallCond', 'GrLivArea', 'GarageArea', 'TotalBsmtSF', 'OverallQual', 'YearBuilt', '1stFlrSF', '2ndFlrSF', 'LotArea']
+    # Define the features used in the pipeline
+    used_features = ['1stFlrSF', '2ndFlrSF', 'BsmtFinSF1', 'GarageArea', 'GrLivArea', 'LotArea', 
+                     'OverallCond', 'OverallQual', 'TotalBsmtSF', 'YearBuilt']
 
-    # Preprocessor for the pipeline
-    preprocessor = ColumnTransformer(
-        transformers=[
-            ('num', StandardScaler(), num_features)
-        ]
-    )
-
-    # Example imputer (if not already included in the pipeline)
-    imputer_num = SimpleImputer(strategy='mean')
+    # Load training columns to ensure consistency
+    X_train = pd.read_csv('/workspace/PP5-ML/outputs/ml_pipeline/predict_SalePrice/v3/br_X_train.csv')
+    expected_columns = X_train[used_features].columns
 
     # Streamlit dashboard
     st.title("House Price Prediction")
 
-    # User input for house details
+    # User input for house details with hints
     st.write("### Enter Details of Your House")
 
     input_data = {}
 
-    for feature in num_features:
-        input_data[feature] = st.number_input(feature, min_value=0.0)
+    feature_descriptions = {
+        '1stFlrSF': 'Measurement: Square Feet',
+        '2ndFlrSF': 'Measurement: Square Feet',
+        'BsmtFinSF1': 'Measurement: Square Feet',
+        'GarageArea': 'Measurement: Square Feet',
+        'GrLivArea': 'Measurement: Square Feet',
+        'LotArea': 'Measurement: Square Feet',
+        'OverallCond': 'Scale 1 - 10 : Poor - Good',
+        'OverallQual': 'Scale 1 - 10 : Low - High',
+        'TotalBsmtSF': 'Measurement: Square Feet',
+        'YearBuilt': 'Year'
+    }
+
+    for feature in used_features:
+        hint = feature_descriptions.get(feature, "")
+        input_data[feature] = st.number_input(f"{feature} ({hint})", min_value=0.0)
 
     # Convert input data to DataFrame
     input_df = pd.DataFrame([input_data])
 
-    # Impute and scale the input data (if required)
-    input_df[num_features] = imputer_num.fit_transform(input_df[num_features])
-    input_df = pd.DataFrame(preprocessor.fit_transform(input_df), columns=num_features)
+    # Ensure input_df has the same columns as expected by the pipeline
+    input_df = input_df.reindex(columns=expected_columns, fill_value=0)
 
     # Make prediction
     if st.button("Predict Sale Price"):
-        prediction = pipeline.predict(input_df)
-        st.write(f"### Predicted Sale Price: {prediction[0]:.2f}")
+        try:
+            prediction = pipeline.predict(input_df)
+            st.write(f"### Predicted Sale Price: ${prediction[0]:,.2f}")
 
-        # Plot predictions (Optional)
-        st.write("### Predicted Sale Prices for Inherited Houses")
-        st.write("The plot below shows the predicted sale prices for the inherited houses:")
-        
-        # Assuming you have actual predictions for inherited houses
-        Inherited_houses = pd.read_csv('/workspace/PP5-ML/inputs/datasets/raw/house-price-20211124T154130Z-001/house-price/inherited_houses.csv')
-        plt.figure(figsize=(14, 8))
-        sns.barplot(x=Inherited_houses.index, y=prediction)
-        plt.title('Predicted Sale Prices for Inherited Houses')
-        plt.xlabel('Property')
-        plt.ylabel('Predicted Sale Price')
-        plt.xticks(rotation=90)
-        st.pyplot(plt)
+            # Load and clean inherited houses data
+            Other_houses = pd.read_csv('/workspace/PP5-ML/outputs/datasets/cleaned/CleanedDataset.csv')
+            Cleaned_data = Other_houses[used_features].reindex(columns=expected_columns, fill_value=0)
+
+            # Get predictions for the cleaned dataset
+            predictions = pipeline.predict(Cleaned_data)
+
+            # Combine user's prediction with the cleaned dataset predictions
+            comparison_df = pd.DataFrame({
+                'Property': ['Your Property'] + Other_houses.index.tolist(),
+                'Sale Price': [prediction[0]] + predictions.tolist()
+            })
+
+            # Scatter plot with regression line
+            fig, ax = plt.subplots(figsize=(14, 8))
+            sns.scatterplot(x=Other_houses['YearBuilt'], y=predictions, label='Other Houses', ax=ax)
+            sns.regplot(x=Other_houses['YearBuilt'], y=predictions, scatter=False, ax=ax, color='blue')
+            sns.scatterplot(x=[input_df['YearBuilt'][0]], y=[prediction[0]], color='red', s=100, label='Your Property', ax=ax)
+            plt.title('Predicted Sale Prices by Year Built')
+            plt.xlabel('Year Built')
+            plt.ylabel('Predicted Sale Price (USD)')
+            st.pyplot(fig)
+
+            # Histogram
+            fig, ax = plt.subplots(figsize=(14, 8))
+            sns.histplot(predictions, bins=30, kde=True, ax=ax)
+            plt.axvline(x=prediction[0], color='red', linestyle='--', label='Your Property')
+            plt.title('Distribution of Predicted Sale Prices')
+            plt.xlabel('Predicted Sale Price (USD)')
+            plt.ylabel('Frequency')
+            plt.legend()
+            st.pyplot(fig)
+
+        except ValueError as e:
+            st.error(f"Error: {e}")
