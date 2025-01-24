@@ -28,6 +28,9 @@ def page_predict_sale_price():
     # Streamlit dashboard
     st.title("House Price Prediction")
 
+    # Information about the page
+    st.info("This page allows you to quickly predict the sale price of a property on the fly. The model uses various features of the property to estimate the price based on a trained machine learning pipeline.")
+
     # User input for house details with hints
     st.write("### Enter Details of Your House")
 
@@ -48,7 +51,7 @@ def page_predict_sale_price():
 
     for feature in used_features:
         hint = feature_descriptions.get(feature, "")
-        input_data[feature] = st.number_input(f"{feature} ({hint})", min_value=0.0)
+        input_data[feature] = st.number_input(f"{feature} ({hint})", min_value=0, step=1)
 
     # Convert input data to DataFrame
     input_df = pd.DataFrame([input_data])

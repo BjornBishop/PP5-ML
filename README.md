@@ -144,7 +144,7 @@ Each row represents a customer, each column contains a customer attribute. The d
 
   ## ML Business Case
 
-### Predict Churn
+### Predict Property Sale Price
 #### Regression Model
 - We want an ML model to predict sale price of a house based on historical data from the same state, which include the sales price as these are houses that have already been sold. The target variable is numerical and contains a wide range of prices and other features. We consider a **regression model**. which is supervised and uni-dimensional, regression model output: approximate sale price based on user input data. 
 - Our ideal outcome is to provide our customers with the ability to input their housing data and reasonably predict the sale value of their property.
@@ -161,6 +161,106 @@ Each row represents a customer, each column contains a customer attribute. The d
     - features dropped: 'EnclosedPorch', 'WoodDeckSF', 'LotFrontage', 'GarageFinish', 'BsmtFinType1', 'BedroomAbvGr', 'GarageYrBlt', 'MasVnrArea', 'BsmtExposure', 'YearRemodAdd', 'OpenPorchSF', 'BsmtUnfSF', 'KitchenQual'
     - features kept: '1stFlrSF'	'2ndFlrSF'	'BsmtFinSF1'	'GarageArea'	'GrLivArea'	'LotArea'	'OverallCond'	'OverallQual'	'TotalBsmtSF'	'YearBuilt'
 
-   
+## The wrong turns: 
+
+Throughout building pipelines, I ended up making a wide array of models in an attempt to get the best scoring model possible. I tried calassification models. I tried RGBXetc models, I tried decisionTreeRegressor models. I even threw in some Lasso from time to time in an attempt to change the outcome. 
+
+## Back to the regression model
+
+The regression model with some standard scaling on the data turned out to be the best way forward once certain features had been removed. Its currently 3am. I have pulled 4 all nighters 10am until 8am kind of all nighters. So forgive me for not wanting to fetch those results right now. 
+
+# House Price Prediction Project
+## Dashboard Design (Streamlit App User Interface)
+### Page 1: Quick Project Summary
+
+- Project Terms & Jargon
+- Describe Project Dataset
+- State Business Requirements
+- Business Case Assessment: Summarize the business requirements, the expected project outcomes, and the criteria for success.
+
+### Page 2: House Sale Price Analysis
+Objective: To answer business requirement 1.
+
+Contents:
+
+State business requirement 1
+- Checkbox: Data inspection on house dataset (number of rows and columns, first ten rows of the data)
+- Correlation Study: Display the most correlated variables to sale price and summarize the insights.
+- Checkbox: Individual plots showing the sale price levels for each correlated variable
+- Checkbox: Parallel plot using Sale Price and correlated variables
+
+### Page 3: House Price Predictor
+Objective: To address business requirement 2.
+
+Contents:
+
+Widget inputs related to house features for predicting the sale price.
+- "Run predictive analysis" button to serve the house data to our ML pipelines and predict the sale price.
+- Compare the predicted price to other houses built in the same year using visualizations like scatter plots and histograms.
+- Interactive Prediction: Display the summed predicted price for all 4 inherited houses and allow users to input real-time house data to predict sale prices.
+
+### Page 4: Project Hypothesis and Validation
+Objective: To describe and validate project hypotheses.
+
+Contents:
+
+- Hypothesis 1: Older houses have lower sale prices. (Validated)
+
+- Hypothesis 2: Houses with larger living areas have higher sale prices. (Validated)
+
+- Describe each hypothesis, the conclusions, and how validation was performed.
+
+### Page 5: Predict House Sale Price
+Contents:
+
+Considerations and conclusions after the pipeline is trained
+
+- Present ML pipeline steps
+
+- Feature importance
+
+- Pipeline performance
+
+### Page 6: Predict Tenure
+Contents:
+
+- Considerations and conclusions after the pipeline is trained
+
+- Present ML pipeline steps
+
+- Feature importance
+
+- Pipeline performance
+
+#### Project Considerations
+- Data Suggestion: The data suggests using a regressor where the target is the sale price.
+- Model Inputs and Outputs: Inputs are house attribute information; output is the predicted sale price.
+- Performance Goal: R2 score of at least 0.75 on both the train set and the test set.
+- Client Benefits: Maximize the sales price for the inherited properties.
+- Ethical or Privacy Concerns: None, as a public dataset is used.
+
+### Business Requirements
+- Business Requirement 1: Perform a correlation and/or PPS study to investigate the most relevant variables correlated to the sale price, and visualize these variables against the sale price to summarize the insights.
+
+- Business Requirement 2: Deliver an ML system capable of reliably predicting the summed sales price of the 4 inherited houses and any other house in Ames, Iowa.
+
+- Use either conventional ML or Neural Networks to map the relationships between features and the target.
+
+- Conduct extensive hyperparameter optimization for the chosen algorithm.
+
+- Display model performance and pipeline steps in the dashboard.
+
+### Dashboard Expectations
+Your dashboard should contain:
+
+- Project Summary Page: Show the project dataset summary and the client's requirements.
+
+- Analysis Page: Findings related to which features have the strongest correlation to the house sale price.
+
+- Prediction Page: Display the 4 houses' attributes and their respective predicted sale prices, along with the summed predicted price for all 4 inherited houses. Add interactive input widgets for real-time house data to predict sale prices.
+
+- Hypothesis Page: Indicate project hypotheses and their validation across the project.
+
+- Technical Page: Display model performance and pipeline steps.
 
 
