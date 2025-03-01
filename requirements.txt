@@ -22,8 +22,8 @@ matplotlib==3.8.0
 multimethod==1.12
 narwhals==1.28.0
 networkx==3.4.2
-numpy==1.26.1
-pandas==1.5.3
+numpy
+pandas>=1.4,<3.0
 patsy==1.0.1
 phik==0.12.4
 pillow==11.1.0
