@@ -13,7 +13,7 @@ def load_pkl_file(file_path):
     return joblib.load(filename=file_path)
 
 def load_housing_data_transformed():
-    df_trans = pd.read_csv("/workspace/PP5-ML/outputs/datasets/collection/Housing_prices_transformed.csv")
+    df_trans = pd.read_csv("/workspace/PP5-ML/outputs/datasets/collection/housing_prices_transformed.csv")
     return df_trans
 
 def final_pipeline():
