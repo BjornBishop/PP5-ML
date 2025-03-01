@@ -1,0 +1,13 @@
+pandas  # Removed strict version constraints to allow resolution.
+numpy
+scikit-learn
+seaborn
+streamlit
+xgboost
+feature-engine
+ppscore
+matplotlib
+statsmodels
+imbalanced-learn
+ydata-profiling
+plotly
