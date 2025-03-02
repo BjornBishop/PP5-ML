@@ -75,7 +75,7 @@ def page_predict_sale_price():
             st.write(f"### Predicted Sale Price: ${prediction[0]:,.2f}")
 
             # Load and clean inherited houses data
-            Other_houses = pd.read_csv('/workspace/PP5-ML/outputs/datasets/cleaned/CleanedDataset.csv')
+            Other_houses = pd.read_csv('outputs/datasets/cleaned/CleanedDataset.csv')
             Cleaned_data = Other_houses[used_features].reindex(columns=expected_columns, fill_value=0)
 
             # Get predictions for the cleaned dataset
