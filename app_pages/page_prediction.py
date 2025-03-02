@@ -79,7 +79,6 @@ def page_sale_price_prediction():
     # Load needed files with error handling
     try:
         v3_pipeline = load_pkl_file(os.path.join(version_path, 'best_regressor_pipeline.pkl'))
-        metrics = load_pkl_file(os.path.join(version_path, 'metrics.pkl'))
         v3_feat_importance = plt.imread(os.path.join(version_path, 'features_importance.png'))
         X_train = pd.read_csv(os.path.join(version_path, 'br_X_train.csv'))
         X_test = pd.read_csv(os.path.join(version_path, 'br_x_test.csv'))
@@ -95,42 +94,52 @@ def page_sale_price_prediction():
     if y_test.ndim > 1:
         y_test = y_test.ravel()
 
+    # Section: Introduction
     st.write("### ML Pipeline: Predict Sales Price")
-
     st.info(
-        f"* The pipeline was tuned aiming at least 0.75 R2 score on predicting sales price "
-        f"since we are interested in creating predictions on potential sales values. \n"
-        f"* The pipeline performance on train and test set is 0.87 and 0.79, respectively."
+        f"The pipeline was trained to predict house sales prices based on a variety of features. "
+        f"The model achieves solid performance, exceeding the client's R2 score target of 0.75."
     )
 
+    # Section: Model Details and Feature Importance
     st.write("---")
-    st.write("#### This is a lama. Oh, I mean a lamna.")
-    st.write("* This is the model that predicted most accurately.")
+    st.write("#### Model Overview")
+    st.write("This is the regression pipeline used for prediction:")
     st.write(v3_pipeline)
 
     st.write("---")
-    st.write("* The features the model was trained on and their importance.")
-    st.write(X_train.columns.to_list())
+    st.write("#### Key Features and Importance")
     st.image(v3_feat_importance)
     st.info(
-        f"* From the original 25 features, the most important were: "
-        f"Above Ground Living Area, Total Basement Size, and Year Built."
+        f"The model identified the following features as the most influential:\n"
+        f"- Above Ground Living Area\n"
+        f"- Total Basement Size\n"
+        f"- Year Built"
     )
 
+    # Section: Performance Metrics
     st.write("---")
-    st.write("### Pipeline Performance")
-    regression_performance(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, pipeline=v3_pipeline)
+    st.write("### Model Performance Metrics")
+
+    st.write("#### Train Set Performance:")
+    regression_evaluation(X_train, y_train, v3_pipeline)
+
+    st.write("#### Test Set Performance:")
+    regression_evaluation(X_test, y_test, v3_pipeline)
+
     st.info(
-        f"* The model performed well, exceeding the client's requirements. "
-        f"* Train Set R2 Score: 0.861 \n"
-        f"* Test Set R2 Score: 0.79"
+        f"The test set R2 score of **0.797** demonstrates the model's ability to explain nearly 80% of the variance "
+        f"in house sale prices based on the features provided."
     )
 
+    # Section: Actual vs Predicted Plots
     st.write("---")
-    if st.checkbox("Show Regression Evaluation Plots"):
-        regression_evaluation_plots(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, pipeline=v3_pipeline)
+    st.write("### Actual vs Predicted Plots")
+    if st.checkbox("Show Plots"):
+        regression_evaluation_plots(X_train, y_train, X_test, y_test, v3_pipeline)
         st.info(
-            f"* The blue dots represent actual vs. predicted values, following the red line closely. \n"
-            f"* Outliers (e.g., predictions above 400,000+) are harder to predict, as expected."
+            f"The scatter plots below show how well the model's predictions align with actual sales prices:\n"
+            f"- **Train Set**: Predicted values follow the ideal trend closely.\n"
+            f"- **Test Set**: Minor deviations for high-priced houses (outliers) are observed."
         )
 
