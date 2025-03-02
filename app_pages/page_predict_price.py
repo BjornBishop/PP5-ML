@@ -22,7 +22,7 @@ def page_predict_sale_price():
                      'OverallCond', 'OverallQual', 'TotalBsmtSF', 'YearBuilt']
 
     # Load training columns to ensure consistency
-    X_train = pd.read_csv('/workspace/PP5-ML/outputs/ml_pipeline/predict_SalePrice/v3/br_X_train.csv')
+    X_train = pd.read_csv('outputs/ml_pipeline/predict_SalePrice/v3/br_X_train.csv')
     expected_columns = X_train[used_features].columns
 
     # Streamlit dashboard
