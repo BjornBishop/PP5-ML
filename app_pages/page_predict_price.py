@@ -15,7 +15,7 @@ from app_pages.pipeline_definitions import final_pipeline
 
 def page_predict_sale_price():
     # Load the pipeline
-    pipeline = joblib.load('/workspace/PP5-ML/outputs/ml_pipeline/predict_SalePrice/v3/best_regressor_pipeline.pkl')
+    pipeline = joblib.load('outputs/ml_pipeline/predict_SalePrice/v3/best_regressor_pipeline.pkl')
 
     # Define the features used in the pipeline
     used_features = ['1stFlrSF', '2ndFlrSF', 'BsmtFinSF1', 'GarageArea', 'GrLivArea', 'LotArea', 
