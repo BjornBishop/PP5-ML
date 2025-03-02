@@ -128,10 +128,12 @@ Each row represents a customer, each column contains a customer attribute. The d
       - 34900 - 755000|
 
 ## Hypothesis and how to validate?
-- 1 - We suspect customers are churning with low tenure levels.
-	- A Correlation study can help in this investigation
-- 2 - A customer survey showed our customers appreciate Fibre Optic.
-	- A Correlation study can help in this investigation
+### Project Hypotheses:
+1. Features like Living Area, Year Built, and Overall Quality have a strong positive correlation with Sale Price.
+2. A machine learning regression model can achieve an R2 Score of at least 0.75 on the test set, demonstrating its ability to predict house sale prices accurately.
+### How to Validate:
+1. We calculated Pearson and Spearman correlation coefficients and visualized relationships between features and Sale Price using scatter plots.
+2. We evaluated the regression model's performance using metrics like R2 Score, MAE, and RMSE.
 
 
 ## The rationale to map the business requirements to the Data Visualizations and ML tasks
