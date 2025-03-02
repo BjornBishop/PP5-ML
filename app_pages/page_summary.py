@@ -35,24 +35,24 @@ def page_summary_body():
     )
 
     # Objective conclusion (addressing criterion 4.2)
-st.info(
-    f"### Conclusion:\n"
-    f"The regression model developed for this project successfully addresses Business Requirement 2. "
-    f"It demonstrates strong predictive performance in estimating property sale prices based on housing features. \n\n"
+    st.info(
+        f"### Conclusion:\n"
+        f"The regression model developed for this project successfully addresses Business Requirement 2. "
+        f"It demonstrates strong predictive performance in estimating property sale prices based on housing features. \n\n"
 
-    f"#### Model Evaluation:\n"
-    f"* **Train Set Performance:**\n"
-    f"  - **R2 Score**: 0.861\n"
-    f"  - **Mean Absolute Error (MAE)**: $20,676\n"
-    f"  - **Root Mean Squared Error (RMSE)**: $29,300\n\n"
+        f"#### Model Evaluation:\n"
+        f"* **Train Set Performance:**\n"
+        f"  - **R2 Score**: 0.861\n"
+        f"  - **Mean Absolute Error (MAE)**: $20,676\n"
+        f"  - **Root Mean Squared Error (RMSE)**: $29,300\n\n"
 
-    f"* **Test Set Performance:**\n"
-    f"  - **R2 Score**: 0.797\n"
-    f"  - **Mean Absolute Error (MAE)**: $23,790\n"
-    f"  - **Root Mean Squared Error (RMSE)**: $37,484\n\n"
+        f"* **Test Set Performance:**\n"
+        f"  - **R2 Score**: 0.797\n"
+        f"  - **Mean Absolute Error (MAE)**: $23,790\n"
+        f"  - **Root Mean Squared Error (RMSE)**: $37,484\n\n"
 
-    f"These metrics demonstrate the model's ability to predict sales prices with reasonable accuracy. "
-    f"The R2 score of 0.797 on the test set indicates that the model captures about 80% of the variance in the sale price data. "
-    f"This makes it a valuable tool for assisting clients in pricing inherited properties effectively."
+        f"These metrics demonstrate the model's ability to predict sales prices with reasonable accuracy. "
+        f"The R2 score of 0.797 on the test set indicates that the model captures about 80% of the variance in the sale price data. "
+        f"This makes it a valuable tool for assisting clients in pricing inherited properties effectively."
 )
 
