@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
 import numpy as np
+from src.data_management import load_prediction_pipeline
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import Lasso
 from sklearn.feature_selection import SelectFromModel
@@ -15,15 +16,23 @@ from app_pages.pipeline_definitions import final_pipeline
 
 def page_predict_sale_price():
     # Load the pipeline
-    pipeline = joblib.load('outputs/ml_pipeline/predict_SalePrice/v3/best_regressor_pipeline.pkl')
+    try:
+        pipeline = load_prediction_pipeline()
+    except FileNotFoundError as e:
+        st.error(str(e))
+        return
 
     # Define the features used in the pipeline
     used_features = ['1stFlrSF', '2ndFlrSF', 'BsmtFinSF1', 'GarageArea', 'GrLivArea', 'LotArea', 
                      'OverallCond', 'OverallQual', 'TotalBsmtSF', 'YearBuilt']
 
     # Load training columns to ensure consistency
-    X_train = pd.read_csv('outputs/ml_pipeline/predict_SalePrice/v3/br_X_train.csv')
-    expected_columns = X_train[used_features].columns
+    try:
+        X_train = pd.read_csv('outputs/ml_pipeline/predict_SalePrice/v3/br_X_train.csv')
+        expected_columns = X_train[used_features].columns
+    except FileNotFoundError:
+        st.error("Training data file not found. Ensure br_X_train.csv is available in the specified path.")
+        return
 
     # Streamlit dashboard
     st.title("House Price Prediction")

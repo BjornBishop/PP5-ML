@@ -6,8 +6,11 @@ import joblib
 @st.cache_data
 def load_housing_data():
     df_raw = pd.read_csv("inputs/datasets/raw/house-price-20211124T154130Z-001/house-price/house_prices_records.csv")
-    return df
+    return df_raw
 
+def load_prediction_pipeline():
+    pipeline_path = 'outputs/ml_pipeline/predict_SalePrice/v3/best_regressor_pipeline.pkl'
+    return joblib.load(pipeline_path)
 
 def load_pkl_file(file_path):
     return joblib.load(filename=file_path)
